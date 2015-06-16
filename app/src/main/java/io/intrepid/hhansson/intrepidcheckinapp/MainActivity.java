@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
@@ -18,6 +19,8 @@ import butterknife.OnClick;
 
 
 public class MainActivity extends Activity {
+    public static final String TAG = MainActivity.class.getSimpleName();
+
     @InjectView(R.id.service_switch)
     Switch serviceSwitch;
 
@@ -33,8 +36,9 @@ public class MainActivity extends Activity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     //start service
-                    Intent i = new Intent(context, TimerService.class );
+                    Intent i = new Intent(context, Locator.class );
                     context.startService(i);
+                    Log.w(TAG, "isChecked true!!!!!!!!!!");
                 } else {
                     //stop service
                 }
