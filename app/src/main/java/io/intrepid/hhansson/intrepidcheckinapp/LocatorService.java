@@ -72,21 +72,37 @@ public class LocatorService extends Service implements GoogleApiClient.Connectio
         if (atIntrepid) {
             if (distance > 50.0) {
                 atIntrepid = false;
+                makeDepartureNotification();
             }
         } else if (distance <= 50.0) {
             Log.d(TAG, "@Intrepid is true");
             atIntrepid = true;
-            makeNotification();
+            makeArrivalNotification();
         }
     }
-    public void makeNotification() {
+
+    private void makeDepartureNotification() {
+        Intent i = new Intent(getApplicationContext(), NotifyDeparture.class);
+        PendingIntent contentIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        builder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.notification_template_icon_bg)
+                .setContentTitle("Click to post to #Who's-Here!")
+                .setContentText("Departure Message I'm Out!")
+                .setContentIntent(contentIntent);
+        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(1, builder.build());
+        Log.d(TAG, "Notification Built");
+    }
+
+    public void makeArrivalNotification() {
         Intent i = new Intent(getApplicationContext(), NotifyArrival.class);
         PendingIntent contentIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
         builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.notification_template_icon_bg)
-                .setContentTitle("Intrepid Campus Notification")
-                .setContentText("You're Here!")
+                .setContentTitle("Click to post to #Who's-Here!")
+                .setContentText("Arrival Message I'm Here!")
                 .setContentIntent(contentIntent);
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notificationManager.notify(1, builder.build());

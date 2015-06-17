@@ -36,7 +36,8 @@ public class MainActivity extends Activity {
                     context.startService(i);
                     Log.w(TAG, "isChecked true!!!!!!!!!!");
                 } else {
-                    //stop service
+                    Intent i = new Intent(context, LocatorService.class);
+                    context.stopService(i);
                 }
             }
         });
