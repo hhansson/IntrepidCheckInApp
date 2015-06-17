@@ -3,19 +3,15 @@ package io.intrepid.hhansson.intrepidcheckinapp;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Switch;
-import android.widget.ToggleButton;
-import android.view.View;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
 
 
 public class MainActivity extends Activity {
@@ -36,7 +32,7 @@ public class MainActivity extends Activity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     //start service
-                    Intent i = new Intent(context, Locator.class );
+                    Intent i = new Intent(context, LocatorService.class );
                     context.startService(i);
                     Log.w(TAG, "isChecked true!!!!!!!!!!");
                 } else {
