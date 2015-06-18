@@ -4,10 +4,11 @@ import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.POST;
+import retrofit.http.Path;
 
 public interface SlackService {
 
-    @POST("/services/T026B13VA/B064U29MZ/vwexYIFT51dMaB5nrejM6MjK")
-    void postSlackMessage(@Body SlackMessage slackMessage, Callback<Void> callback);
+    @POST("/services/{slack_channel_url_key}")
+    void postSlackMessage(@Path(value = "slack_channel_url_key", encode = false) String urlKey, @Body SlackMessage slackMessage, Callback<Void> callback);
 
 }

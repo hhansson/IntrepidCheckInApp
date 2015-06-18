@@ -28,7 +28,7 @@ public class NotifyArrival extends BroadcastReceiver {
 
     private void sendPostRequest() {
         SlackMessage slackMessage = new SlackMessage("I'm here! Boom.", "Hayley");
-        ServiceAdapter.getSlackServiceInstance().postSlackMessage(slackMessage, new Callback<Void>() {
+        ServiceAdapter.getSlackServiceInstance().postSlackMessage(BuildConfig.SLACK_CHANNEL_URL_KEY ,slackMessage, new Callback<Void>() {
             @Override
             public void success(Void aVoid, Response response) {
                 Log.d(TAG, "Slack post successful!");
