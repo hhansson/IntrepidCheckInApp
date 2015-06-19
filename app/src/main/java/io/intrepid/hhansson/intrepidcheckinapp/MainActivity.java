@@ -12,6 +12,7 @@ import android.widget.Switch;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnCheckedChanged;
 
 
 public class MainActivity extends Activity {
@@ -30,13 +31,11 @@ public class MainActivity extends Activity {
         serviceSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Intent i = new Intent(context, LocatorService.class);
                 if (isChecked) {
-                    //start service
-                    Intent i = new Intent(context, LocatorService.class );
                     context.startService(i);
                     Log.w(TAG, "isChecked true!!!!!!!!!!");
                 } else {
-                    Intent i = new Intent(context, LocatorService.class);
                     context.stopService(i);
                 }
             }

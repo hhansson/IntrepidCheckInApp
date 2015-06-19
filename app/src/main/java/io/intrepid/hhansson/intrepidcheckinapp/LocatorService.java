@@ -18,12 +18,11 @@ import com.google.android.gms.location.LocationServices;
 
 public class LocatorService extends Service implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
     private static final String TAG = LocatorService.class.getSimpleName();
-    private static final int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     public static final long INTERVAL = 15 * 60 * 1000;
     public static final long FAST_INTERVAL = 60 * 1000;
     public static final double INTREPID_LAT = 42.367010;
     public static final double INTREPID_LON = -71.080210;
-    public double distance;
+
     public boolean atIntrepid;
     public Bundle bundleSaved;
     public NotificationCompat.Builder builder;
@@ -72,37 +71,26 @@ public class LocatorService extends Service implements GoogleApiClient.Connectio
         if (atIntrepid) {
             if (distance > 50.0) {
                 atIntrepid = false;
-                makeDepartureNotification();
+                makeNotification(false);
             }
         } else if (distance <= 50.0) {
             Log.d(TAG, "@Intrepid is true");
             atIntrepid = true;
-            makeArrivalNotification();
+            makeNotification(true);
         }
     }
 
-    private void makeDepartureNotification() {
-        Intent i = new Intent(getApplicationContext(), NotifyDeparture.class);
+    private void makeNotification(boolean arriving) {
+        String message = (arriving) ? "Arrival Message I'm Here!" : "Departure Message I'm Out!";
+
+        Intent i = new Intent(getApplicationContext(), UserNotification.class);
+        i.putExtra("arriving", (arriving));
         PendingIntent contentIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
         builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.notification_template_icon_bg)
                 .setContentTitle("Click to post to #Who's-Here!")
-                .setContentText("Departure Message I'm Out!")
-                .setContentIntent(contentIntent);
-        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        notificationManager.notify(1, builder.build());
-        Log.d(TAG, "Notification Built");
-    }
-
-    public void makeArrivalNotification() {
-        Intent i = new Intent(getApplicationContext(), NotifyArrival.class);
-        PendingIntent contentIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        builder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.notification_template_icon_bg)
-                .setContentTitle("Click to post to #Who's-Here!")
-                .setContentText("Arrival Message I'm Here!")
+                .setContentText(message)
                 .setContentIntent(contentIntent);
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notificationManager.notify(1, builder.build());

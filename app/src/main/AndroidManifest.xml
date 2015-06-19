@@ -11,7 +11,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <service android:name=".LocatorService"/>
-        <receiver android:name=".NotifyArrival"/>
+        <receiver android:name=".UserNotification"/>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
